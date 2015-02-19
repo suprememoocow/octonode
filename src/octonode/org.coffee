@@ -85,5 +85,21 @@ class Org
       return cb(err)  if err
       if s isnt 201 then cb new Error("Org addTeamRepo error") else cb null, b, h
 
+  # Get organisation membership using the membership API
+  # https://developer.github.com/v3/orgs/members/#get-organization-membership
+  # '/orgs/flatiron/memberships/pksunkara' GET
+  getMembership: (username, cb) ->
+    @client.get "/orgs/#{@name}/memberships/#{username}", {
+        # No longer required after 24 February 2015
+        headers: {
+          Accept: 'application/vnd.github.moondragon+json'
+        }
+      }, (err, s, b, h) ->
+      return cb(err) if err
+      if s isnt 200
+        cb new Error("Org addTeamRepo error")
+      else
+        cb null, b, h
+
 # Export module
 module.exports = Org

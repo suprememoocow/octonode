@@ -256,5 +256,18 @@ class Me
       return cb(err) if err
       if s isnt 204 then cb(new Error('User unsubscribe error')) else cb null, b, h
 
+  # Get your organization membership
+  # https://developer.github.com/v3/orgs/members/#get-your-organization-membership
+  # '/user/memberships/orgs/flatiron' GET
+  getOrgMembership: (org, cb) ->
+    @client.get "/user/memberships/orgs/#{org}", null, (err, s, b, h) ->
+      console.log('getOrgMembership: ', s);
+      return cb(err) if err
+      if s isnt 200
+        cb new Error("User getMembership error")
+      else
+        cb null, b, h
+
+
 # Export module
 module.exports = Me
